@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anz.anzbanks.dto.AccountDTO;
@@ -27,7 +29,7 @@ public class ANZController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@GetMapping(path = "/view-accounts")
+	@GetMapping(path = "/accounts/view")
 	public ResponseEntity<List<AccountDTO>> viewAccounts(){
 		logger.info("In AnzController: viewing accounts");
 		List<AccountDTO> accounts = accountService.viewAccount();
@@ -35,8 +37,8 @@ public class ANZController {
 		return response;
 	}
 	
-	@GetMapping(path = "/view-transactions/{accountNo}")
-	public ResponseEntity<List<TransactionDTO>> viewTransactions(@PathVariable(value = "accountNo") Long accountNo)  throws AccountException{
+	@GetMapping(path = "/transactions/view")
+	public ResponseEntity<List<TransactionDTO>> viewTransactions(@RequestBody Long accountNo)  throws AccountException{
 		logger.info("In AnzController: viewing transactions");
 		List<TransactionDTO> transactions = accountService.viewTransaction(accountNo);
 		ResponseEntity<List<TransactionDTO>> response = new ResponseEntity<List<TransactionDTO>>(transactions, HttpStatus.OK);
